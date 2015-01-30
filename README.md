@@ -1,4 +1,7 @@
-# Pres: A Simple Rails Presenter
+# `pres`
+
+[![Gem Version](https://badge.fury.io/rb/pres.svg)](http://badge.fury.io/rb/pres)
+[![Build Status](https://travis-ci.org/neighborland/pres.svg)](https://travis-ci.org/neighborland/pres)
 
 ## What?
 
