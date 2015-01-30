@@ -7,15 +7,15 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Tee Parham"]
   spec.email         = ["tee@neighborland.com"]
   spec.summary       = %(A Simple Rails Presenter)
-  spec.description   = %(A Simple Rails Presenter base class and controller )
+  spec.description   = %(A Simple Rails Presenter base class and controller helper)
   spec.homepage      = "https://github.com/neighborland/pres"
   spec.license       = "MIT"
 
   spec.files         = Dir["LICENSE.txt", "README.md", "lib/**/*"]
-  spec.test_files    = Dir["Gemfile", "test/**/*"]
+  spec.test_files    = Dir["Gemfile", "Rakefile", "test/**/*"]
   spec.require_paths = ["lib"]
 
-  spec.required_ruby_version = ">= 1.9.3"
+  spec.required_ruby_version = ">= 2.0.0"
 
   spec.add_dependency "activesupport", "~> 4.0"
 
