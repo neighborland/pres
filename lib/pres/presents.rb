@@ -10,14 +10,14 @@ module Presents
   #
   # user = User.new
   # present(user, cool: true)
-  # => #<UserPresenter user: #<User> ...>
+  # => #<UserPresenter object: #<User> ...>
   #
   # user = User.new
   # present(user, presenter: NiceUserPresenter, cool: true)
-  # => #<NiceUserPresenter user: #<User> ...>
+  # => #<NiceUserPresenter object: #<User> ...>
   #
   # present([user])
-  # => [#<UserPresenter user: #<User> ...>]
+  # => [#<UserPresenter object: #<User> ...>]
   #
   # Returns a new Presenter object or array of new Presenter objects
   def present(object, presenter: nil, **args)
