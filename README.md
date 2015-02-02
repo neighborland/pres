@@ -80,7 +80,9 @@ class DogesController
   end
 
   private
-
+  
+  helper_method :doge
+  
   def doge
     @doge ||= present(Doge.find(params[:id]))
   end  
@@ -115,6 +117,8 @@ class DogesController
   end
 
   private
+
+  helper_method :doges
 
   def doges
     @doges ||= present(Doge.all)
