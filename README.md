@@ -58,7 +58,7 @@ class DogePresenter < Presenter
 
   def name_header
     # object is the Doge
-    content_tag(:h1, objec†.name)  
+    content_tag(:h1, object.name)  
   end
 
   def signed_in_status
@@ -177,7 +177,7 @@ present(User.first(5))
 #### Creating presenters in views
 
 You should create presenters in your controllers. If you would like to create
-a presenter in your view code, make the `presents` method visible to your views:
+a presenter in your view code, make the `present` method visible to your views:
 
 ```ruby
 class ApplicationController
