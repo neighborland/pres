@@ -3,7 +3,7 @@ module Presents
 
   # Wrap an object or collection of objects with a presenter class.
   #
-  # object    - a ruby class
+  # object    - a ruby class, or nil
   # presenter - a Presenter class (optional)
   #
   # Examples
@@ -19,11 +19,15 @@ module Presents
   # present([user])
   # => [#<UserPresenter object: #<User> ...>]
   #
+  # present(nil)
+  # => [#<Presenter object: nil ...>]
+  #
   # Returns a new Presenter object or array of new Presenter objects
   def present(object, presenter: nil, **args)
     if object.respond_to?(:to_ary)
       object.map { |item| present(item, presenter: presenter, **args) }
     else
+      presenter ||= Presenter if object.nil?
       presenter ||= Object.const_get("#{ object.class.name }Presenter")
       presenter.new(object, view_context, **args)
     end
