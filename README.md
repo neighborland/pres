@@ -190,13 +190,12 @@ end
 
 #### Presenters are objects
 
-You can mix in common methods. Move everything in `application_helper.rb` to
-`app/presenters/shared`:
+You can mix in common methods.
 
 ```ruby
 module Shared
-  def logout_link
-    # whatever
+  def truncated_name(length: 40)
+    truncate object.name, length: length
   end
 end
 
@@ -211,8 +210,9 @@ You can override methods without resorting to convoluted method names:
 class DogePresenter < Presenter
   include Shared
 
-  def logout_link
+  def truncated_name(length: 60)
     # whoa this one is different!
+    super(length: length)
   end
 end
 ```
