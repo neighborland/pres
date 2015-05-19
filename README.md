@@ -128,11 +128,15 @@ end
 
 Use the presenter objects in `doges/index.haml.html`
 
-```haml
 This renders "doges/_doge.html.haml" for each item, as usual:
+
+```haml
 = render @doges
+```
 
 Or use each:
+
+```haml
 - doges.each do |doge|
   = doge.name_header
 ```
