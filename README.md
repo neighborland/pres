@@ -12,13 +12,21 @@ The `pres` gem is a lightweight presenter solution.
 
 ## How and Why?
 
-Decorators add methods to a model. `pres` does not do that. `pres` encourages you
-to whitelist model methods (via delegation).
+Rails' `ViewContext` contains convenience methods for views, such as `link_to`,
+`url_for`, `truncate`, `number_to_currency`, etc. It's the thing that makes
+Rails views nice to work with.
 
-Other presenter libraries mix in all the methods from the Rails ViewContext to
+Other presenter libraries mix in all the methods from the Rails `ViewContext` to
 make it easy to call those methods in the Presenter class. This causes method
-bloat. `pres` instead injects the ViewContext as a dependency into the
-Presenter class, and uses `method_missing` to delegate to those methods.
+bloat. `pres` instead injects the `ViewContext` as a dependency into the
+Presenter class, and uses `method_missing` to delegate to `ViewContext` methods.
+So `pres` produces small classes that contain and delegate to an existing object 
+that handles server-side rendering.
+
+## Presenter vs. Decorator
+
+Decorators add methods to a model. `pres` encourages you to whitelist model methods 
+via delegation.
 
 ## Install
 
