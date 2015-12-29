@@ -28,7 +28,7 @@ module Presents
       object.map { |item| present(item, presenter: presenter, **args) }
     else
       presenter ||= Presenter if object.nil?
-      presenter ||= Object.const_get("#{ object.class.name }Presenter")
+      presenter ||= Object.const_get("#{object.class.name}Presenter")
       presenter.new(object, view_context, **args)
     end
   end

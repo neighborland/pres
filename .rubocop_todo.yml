@@ -28,19 +28,6 @@ Style/IfUnlessModifier:
     - 'Gemfile'
 
 # Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-Style/SpaceInsideStringInterpolation:
-  Exclude:
-    - 'lib/pres/presents.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-Style/StringLiterals:
-  Enabled: false
-
-# Offense count: 1
 Style/StructInheritance:
   Exclude:
     - 'lib/pres/presenter.rb'
