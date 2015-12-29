@@ -11,8 +11,7 @@ Gem::Specification.new do |spec|
   spec.homepage      = "https://github.com/neighborland/pres"
   spec.license       = "MIT"
 
-  spec.files         = Dir["LICENSE.txt", "README.md", "lib/**/*"]
-  spec.test_files    = Dir["Gemfile", "Rakefile", "test/**/*"]
+  spec.files         = Dir["LICENSE.txt", "README.md", "lib/**/*"]  
   spec.require_paths = ["lib"]
 
   spec.required_ruby_version = ">= 2.0.0"
