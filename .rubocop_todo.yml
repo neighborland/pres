@@ -27,7 +27,3 @@ Style/IfUnlessModifier:
   Exclude:
     - 'Gemfile'
 
-# Offense count: 1
-Style/StructInheritance:
-  Exclude:
-    - 'lib/pres/presenter.rb'
