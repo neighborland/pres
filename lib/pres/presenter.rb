@@ -5,7 +5,7 @@ class Presenter
 
   delegate :id, :to_partial_path, to: :object
 
-  def initialize(object, view_context, options = {})
+  def initialize(object, view_context = nil, options = {})
     self.object = object
     self.view_context = view_context
     self.options = options

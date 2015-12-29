@@ -14,6 +14,10 @@ describe Presenter do
     assert Presenter.new(nil, nil)
   end
 
+  it "is constructed without view_context" do
+    assert Presenter.new(nil)
+  end
+
   it "is constructed with options" do
     presenter = Presenter.new(nil, nil, something: 42, secrets: "none")
     assert_equal 42, presenter.options[:something]
