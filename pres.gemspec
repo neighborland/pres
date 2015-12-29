@@ -1,5 +1,5 @@
 # coding: utf-8
-require './lib/pres/version'
+require "./lib/pres/version"
 
 Gem::Specification.new do |spec|
   spec.name          = "pres"

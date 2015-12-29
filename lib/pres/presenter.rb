@@ -1,7 +1,15 @@
 # Base Presenter class
 # Construct with object, view_context, and optional options
-class Presenter < Struct.new(:object, :view_context, :options)
+class Presenter
+  attr_accessor :object, :options, :view_context
+
   delegate :id, :to_partial_path, to: :object
+
+  def initialize(object, view_context, options = {})
+    self.object = object
+    self.view_context = view_context
+    self.options = options
+  end
 
   # Send missing symbols to view_context
   def method_missing(symbol, *args, &block)
