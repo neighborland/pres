@@ -1,17 +1,17 @@
 require "test_helper"
 
-describe Presents do
+describe Pres::Presents do
   class Doge
   end
 
-  class DogePresenter < Presenter
+  class DogePresenter < Pres::Presenter
   end
 
-  class VeryDogePresenter < Presenter
+  class VeryDogePresenter < Pres::Presenter
   end
 
   class FakeController
-    include Presents
+    include Pres::Presents
 
     def wrap(object)
       present(object)
@@ -54,6 +54,6 @@ describe Presents do
 
   it "creates the default presenter for nil object" do
     presenter = controller.wrap(nil)
-    assert presenter.is_a?(Presenter)
+    assert presenter.is_a?(Pres::Presenter)
   end
 end

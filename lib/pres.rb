@@ -1,4 +1,6 @@
 require "active_support/core_ext/module/delegation"
+require "active_support/concern"
 require "pres/version"
-require "pres/presenter.rb"
-require "pres/presents.rb"
+require "pres/view_delegation"
+require "pres/presenter"
+require "pres/presents"
