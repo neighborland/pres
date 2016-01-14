@@ -23,4 +23,9 @@ describe Pres::Presenter do
     assert_equal 42, presenter.options[:something]
     assert_equal "none", presenter.options[:secrets]
   end
+
+  it "can create other presenters" do
+    presenter = Pres::Presenter.new(nil)
+    assert presenter.respond_to?(:present, true)
+  end
 end

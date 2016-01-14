@@ -2,6 +2,7 @@
 # Construct with object, view_context, and optional options
 module Pres
   class Presenter
+    include Presents
     include ViewDelegation
 
     attr_reader :object, :options
