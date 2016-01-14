@@ -5,7 +5,7 @@
 
 ## What?
 
-A Presenter is a rendering class that wraps a model. Presenters are an
+A Presenter is a rendering class. Presenters are an
 alternative to an unorganized mass of helper methods in your Rails application.
 
 The `pres` gem is a lightweight presenter solution.
