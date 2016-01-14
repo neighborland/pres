@@ -20,13 +20,8 @@ Other presenter libraries mix in all the methods from the Rails `ViewContext` to
 make it easy to call those methods in the Presenter class. This causes method
 bloat. `pres` instead injects the `ViewContext` as a dependency into the
 Presenter class, and uses `method_missing` to delegate to `ViewContext` methods.
-So `pres` produces small classes that contain and delegate to an existing object 
+So `pres` produces small classes that contain and delegate to an existing object
 that handles server-side rendering.
-
-## Presenter vs. Decorator
-
-Decorators add methods to a model. `pres` encourages you to whitelist model methods 
-via delegation.
 
 ## Install
 
@@ -36,11 +31,11 @@ Add it to your Gemfile:
 gem "pres"
 ```
 
-Include the `Presents` module:
+Include the `Pres::Presents` module:
 
 ```ruby
 class ApplicationController
-  include Presents
+  include Pres::Presents
 end
 ```
 
@@ -50,12 +45,14 @@ Add `app/presenters` to your application's autoload paths in `application.rb`:
 config.autoload_paths += %W( #{ config.root }/app/presenters )
 ```
 
-#### Example Usage
+### Usage
+
+The quickest way to get started is to use the `Pres::Presenter` base class.
 
 Create a presenter class in `app/presenters`:
 
 ```ruby
-class DogePresenter < Presenter
+class DogePresenter < Pres::Presenter
   # explicitly delegate methods to the model
   delegate :name, to: :object
 
@@ -88,9 +85,9 @@ class DogesController
   end
 
   private
-  
+
   helper_method :doge
-  
+
   def doge
     @doge ||= present(Doge.find(params[:id]))
   end  
@@ -112,7 +109,7 @@ Use the presenter object in `doges/show.haml.html`
 Create a presenter class in `app/presenters`:
 
 ```ruby
-class DogePresenter < Presenter
+class DogePresenter < Pres::Presenter
   # same as above
 end
 ```
@@ -151,7 +148,7 @@ Or use each:
 
 #### Present with options
 
-Use keyword arguements (or an options hash) to pass additional options to a
+Use keyword arguments (or an options hash) to pass additional options to a
 Presenter:
 
 ```ruby
@@ -193,12 +190,12 @@ a presenter in your view code, make the `present` method visible to your views:
 
 ```ruby
 class ApplicationController
-  include Presents
+  include Pres::Presents
   helper_method :present
 end
 ```
 
-## More Goodness
+### More Goodness
 
 #### Presenters are objects
 
@@ -219,7 +216,7 @@ end
 You can override methods without resorting to convoluted method names:
 
 ```ruby
-class DogePresenter < Presenter
+class DogePresenter < Pres::Presenter
   include Shared
 
   def truncated_name(length: 60)
@@ -232,7 +229,7 @@ end
 #### Presenters can create other presenters
 
 ```ruby
-class DogePresenter < Presenter
+class DogePresenter < Pres::Presenter
   def cats
     present(object.cats)
   end  
@@ -242,6 +239,34 @@ end
 ```haml
 = render doge.cats
 ```
+
+### Using mixins instead of inheritance
+
+If you don't want to inherit from `Pres::Presenter`, you can include
+`Pres::ViewDelegation` and implement your own initializer (so the `present` helper
+will work).
+
+```ruby
+class DogePresenter < SimpleDelegator
+  include Pres::ViewDelegation
+
+  # you need to write your own initializer with SimpleDelegator
+  def initialize(object, view_context, options = {})
+    super
+    @view_context = view_context
+  end
+```
+
+```haml
+= doge.name
+```
+
+see [SimpleDelegator](http://ruby-doc.org/stdlib-2.3.0/libdoc/delegate/rdoc/SimpleDelegator.html)
+
+## Updating to version 1.0
+
+Modules and classes have been moved into the `Pres` namespace with version 1.0.
+Change your code references to `Pres::Presents` and `Pres::Presenter`.
 
 ## References
 
