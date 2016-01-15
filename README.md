@@ -17,8 +17,8 @@ Rails' `ViewContext` contains convenience methods for views, such as `link_to`,
 Rails views nice to work with.
 
 Other presenter libraries mix in all the methods from the Rails `ViewContext` to
-make it easy to call those methods in the Presenter class. This causes method
-bloat. `pres` instead injects the `ViewContext` as a dependency into the
+make it easy to call those methods in the Presenter class.  
+`pres` instead injects the `ViewContext` as a dependency into the
 Presenter class, and uses `method_missing` to delegate to `ViewContext` methods.
 So `pres` produces small classes that contain and delegate to an existing object
 that handles server-side rendering.
@@ -104,7 +104,7 @@ Use the presenter object in `doges/show.haml.html`
   .meme-link= doge.know_your_meme_link
 ```
 
-#### Collection Example
+#### Collections
 
 Create a presenter class in `app/presenters`:
 
@@ -114,7 +114,7 @@ class DogePresenter < Pres::Presenter
 end
 ```
 
-Wrap your model object in your controller with `present`:
+Wrap your model objects in your controller with `present`:
 
 ```ruby
 class DogesController
@@ -152,7 +152,7 @@ Use keyword arguments (or an options hash) to pass additional options to a
 Presenter:
 
 ```ruby
-class UserPresenter
+class UserPresenter < Pres::Presenter
   def initialize(object, view_context, cool: false)
     super
     @cool = cool
@@ -167,20 +167,15 @@ present(user, cool: true)
 #### Render a custom Presenter
 
 By default, a presenter class corresponding to the model class name is
-constructed. To specify a different class, pass the `presenter:` key, followed
+constructed in `present`. For example, if you present a `User`, a `UserPresenter`
+class is constructed. An error is raised if the presenter class does not exist. 
+To specify a different class, pass the `presenter:` key, followed
 by any additional arguments:
 
 ```ruby
 user = User.new
-present(user, presenter: NiceUserPresenter, cool: true)
-=> #<NiceUserPresenter object: #<User> ...>
-```
-
-#### Render a collection
-
-```ruby
-present(User.first(5))
-=> [#<UserPresenter object: #<User> ...>]
+present(user, presenter: UserEditPresenter, cool: true)
+=> #<UserEditPresenter object: #<User> ...>
 ```
 
 #### Creating presenters in views
@@ -208,12 +203,12 @@ module Shared
   end
 end
 
-class DogePresenter < Presenter
+class DogePresenter < Pres::Presenter
   include Shared
 end
 ```
 
-You can override methods without resorting to convoluted method names:
+You can override methods as usual:
 
 ```ruby
 class DogePresenter < Pres::Presenter
@@ -227,6 +222,9 @@ end
 ```
 
 #### Presenters can create other presenters
+
+Often you will have one top-level presenter exposed per controller,
+which can then wrap child objects in presenters of their own.
 
 ```ruby
 class DogePresenter < Pres::Presenter
@@ -244,7 +242,11 @@ end
 
 If you don't want to inherit from `Pres::Presenter`, you can include
 `Pres::ViewDelegation` and implement your own initializer (so the `present` helper
-will work).
+will work). 
+
+This technique is useful if you would like to delegate all methods in a model
+by default, instead of whitelisting methods on the wrapped model explicitly.
+Delegating everything to the model by defaul is how draper works, for example.
 
 ```ruby
 class DogePresenter < SimpleDelegator
