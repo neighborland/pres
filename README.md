@@ -5,10 +5,8 @@
 
 ## What?
 
-A Presenter is a rendering class. Presenters are an
-alternative to an unorganized mass of helper methods in your Rails application.
-
-The `pres` gem is a lightweight presenter solution.
+A Presenter is a rendering class. Presenters are an alternative to an unorganized mass of helper 
+methods in your Rails application. The `pres` gem is a lightweight presenter solution.
 
 ## How and Why?
 
@@ -17,11 +15,10 @@ Rails' `ViewContext` contains convenience methods for views, such as `link_to`,
 Rails views nice to work with.
 
 Other presenter libraries mix in all the methods from the Rails `ViewContext` to
-make it easy to call those methods in the Presenter class.  
-`pres` instead injects the `ViewContext` as a dependency into the
-Presenter class, and uses `method_missing` to delegate to `ViewContext` methods.
-So `pres` produces small classes that contain and delegate to an existing object
-that handles server-side rendering.
+make it easy to call those methods in the Presenter class.  `pres` instead injects 
+the `ViewContext` as a dependency into the Presenter class, and uses `method_missing` 
+to delegate to `ViewContext` methods. `pres` produces small classes that contain and 
+delegate to an existing object that handles server-side rendering.
 
 ## Install
 
@@ -190,9 +187,7 @@ class ApplicationController
 end
 ```
 
-### More Goodness
-
-#### Presenters are objects
+### Presenters are objects
 
 You can mix in common methods.
 
@@ -223,7 +218,7 @@ end
 
 #### Presenters can create other presenters
 
-Often you will have one top-level presenter exposed per controller,
+If you are awesome, you could have one top-level presenter exposed per controller,
 which can then wrap child objects in presenters of their own.
 
 ```ruby
@@ -246,7 +241,7 @@ will work).
 
 This technique is useful if you would like to delegate all methods in a model
 by default, instead of whitelisting methods on the wrapped model explicitly.
-Delegating everything to the model by defaul is how draper works, for example.
+Delegating everything to the model by default is how the `draper` gem works, for example.
 
 ```ruby
 class DogePresenter < SimpleDelegator
