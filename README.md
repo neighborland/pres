@@ -145,8 +145,7 @@ Or use each:
 
 #### Present with options
 
-Use keyword arguments (or an options hash) to pass additional options to a
-Presenter:
+Pass additional options to a Presenter as a hash:
 
 ```ruby
 class UserPresenter < Pres::Presenter
@@ -166,8 +165,7 @@ present(user, cool: true)
 By default, a presenter class corresponding to the model class name is
 constructed in `present`. For example, if you present a `User`, a `UserPresenter`
 class is constructed. An error is raised if the presenter class does not exist. 
-To specify a different class, pass the `presenter:` key, followed
-by any additional arguments:
+To specify a different class, use the `presenter:` key.
 
 ```ruby
 user = User.new
@@ -177,7 +175,7 @@ present(user, presenter: UserEditPresenter, cool: true)
 
 #### Creating presenters in views
 
-You should create presenters in your controllers. If you would like to create
+You should create presenters in your controllers or within other presenters. If you would like to create
 a presenter in your view code, make the `present` method visible to your views:
 
 ```ruby
