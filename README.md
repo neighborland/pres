@@ -268,3 +268,4 @@ Change your code references to `Pres::Presents` and `Pres::Presenter`.
 * http://nithinbekal.com/posts/rails-presenters/
 * https://github.com/drapergem/draper
 * http://thepugautomatic.com/2014/03/draper/
+* https://robots.thoughtbot.com/sandi-metz-rules-for-developers
