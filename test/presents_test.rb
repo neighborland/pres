@@ -13,8 +13,10 @@ describe Pres::Presents do
   class FakeController
     include Pres::Presents
 
-    def wrap(object)
-      present(object)
+    # Expose the private method
+    # Basically what `helper_method :present` does
+    def present(*args, &block)
+      super
     end
 
     def very_wrap(object)
@@ -29,8 +31,14 @@ describe Pres::Presents do
   let(:controller) { FakeController.new }
 
   it "creates the default presenter" do
-    presenter = controller.wrap(Doge.new)
+    presenter = controller.present(Doge.new)
     assert presenter.is_a?(DogePresenter)
+  end
+
+  it "yields the default presenter" do
+    controller.present(Doge.new) do |doge|
+      assert doge.is_a?(DogePresenter)
+    end
   end
 
   it "creates the specified presenter" do
@@ -38,8 +46,14 @@ describe Pres::Presents do
     assert presenter.is_a?(VeryDogePresenter)
   end
 
+  it "yields the specified presenter" do
+    controller.very_wrap(Doge.new) do |doge|
+      assert doge.is_a?(VeryDogePresenter)
+    end
+  end
+
   it "creates an array of default presenters" do
-    presenters = controller.wrap([Doge.new, Doge.new])
+    presenters = controller.present([Doge.new, Doge.new])
     assert presenters.is_a?(Array)
     assert_equal 2, presenters.size
     assert presenters[0].is_a?(DogePresenter)
@@ -53,7 +67,7 @@ describe Pres::Presents do
   end
 
   it "creates the default presenter for nil object" do
-    presenter = controller.wrap(nil)
+    presenter = controller.present(nil)
     assert presenter.is_a?(Pres::Presenter)
   end
 end

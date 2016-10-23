@@ -15,7 +15,7 @@ Rails' `ViewContext` contains convenience methods for views, such as `link_to`,
 Rails views nice to work with.
 
 Other presenter libraries mix in all the methods from the Rails `ViewContext` to
-make it easy to call those methods in the Presenter class.  `pres` instead injects 
+make it easy to call those methods in the Presenter class. `pres` instead injects 
 the `ViewContext` as a dependency into the Presenter class, and uses `method_missing` 
 to delegate to `ViewContext` methods. `pres` produces small classes that contain and 
 delegate to an existing object that handles server-side rendering.
@@ -83,8 +83,7 @@ class DogesController
 
   private
 
-  helper_method :doge
-
+  helper_method \
   def doge
     @doge ||= present(Doge.find(params[:id]))
   end  
@@ -120,8 +119,7 @@ class DogesController
 
   private
 
-  helper_method :doges
-
+  helper_method \
   def doges
     @doges ||= present(Doge.all)
   end  
@@ -175,14 +173,21 @@ present(user, presenter: UserEditPresenter, cool: true)
 
 #### Creating presenters in views
 
-You should create presenters in your controllers or within other presenters. If you would like to create
-a presenter in your view code, make the `present` method visible to your views:
+If you would like to create a presenter in your view code, make the `present` method 
+visible to your views.
 
 ```ruby
 class ApplicationController
   include Pres::Presents
   helper_method :present
 end
+```
+
+This makes it easy to create presenters inline in a view:
+
+```haml
+- present(@doge) do |doge|
+  = doge.name_header
 ```
 
 ### Presenters are objects
