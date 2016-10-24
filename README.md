@@ -36,12 +36,6 @@ class ApplicationController
 end
 ```
 
-Add `app/presenters` to your application's autoload paths in `application.rb`:
-
-```ruby
-config.autoload_paths += %W( #{ config.root }/app/presenters )
-```
-
 ### Usage
 
 The quickest way to get started is to use the `Pres::Presenter` base class.
