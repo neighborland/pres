@@ -14,6 +14,12 @@ module Pres
     # => #<UserPresenter object: #<User> ...>
     #
     # user = User.new
+    # present(user) do |up|
+    #   up.something
+    # end
+    # up => #<UserPresenter object: #<User> ...>
+    #
+    # user = User.new
     # present(user, presenter: NiceUserPresenter, cool: true)
     # => #<NiceUserPresenter object: #<User> ...>
     #
@@ -24,13 +30,15 @@ module Pres
     # => [#<Presenter object: nil ...>]
     #
     # Returns a new Presenter object or array of new Presenter objects
+    # Yields a new Presenter object if a block is given
     def present(object, presenter: nil, **args)
       if object.respond_to?(:to_ary)
         object.map { |item| present(item, presenter: presenter, **args) }
       else
         presenter ||= Presenter if object.nil?
         presenter ||= Object.const_get("#{object.class.name}Presenter")
-        presenter.new(object, view_context, **args)
+        wrapper = presenter.new(object, view_context, **args)
+        block_given? ? yield(wrapper) : wrapper
       end
     end
   end
