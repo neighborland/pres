@@ -37,44 +37,42 @@ describe Pres::Presents do
   let(:controller) { FakeController.new }
 
   it "creates the default presenter" do
-    presenter = controller.present(Doge.new)
-    assert presenter.is_a?(DogePresenter)
+    assert_instance_of DogePresenter, controller.present(Doge.new)
   end
 
   it "yields the default presenter" do
     controller.present(Doge.new) do |doge|
-      assert doge.is_a?(DogePresenter)
+      assert_instance_of DogePresenter, doge
     end
   end
 
   it "creates the specified presenter" do
-    presenter = controller.very_wrap(Doge.new)
-    assert presenter.is_a?(VeryDogePresenter)
+    assert_instance_of VeryDogePresenter, controller.very_wrap(Doge.new)
   end
 
   it "yields the specified presenter" do
     controller.very_wrap(Doge.new) do |doge|
-      assert doge.is_a?(VeryDogePresenter)
+      assert_instance_of VeryDogePresenter, doge
     end
   end
 
   it "creates an array of default presenters" do
     presenters = controller.present([Doge.new, Doge.new])
-    assert presenters.is_a?(Array)
+    assert_instance_of Array, presenters
     assert_equal 2, presenters.size
-    assert presenters[0].is_a?(DogePresenter)
+    assert_instance_of DogePresenter, presenters[0]
   end
 
   it "creates an array of specified presenters" do
     presenters = controller.very_wrap([Doge.new, Doge.new])
-    assert presenters.is_a?(Array)
+    assert_instance_of Array, presenters
     assert_equal 2, presenters.size
-    assert presenters[0].is_a?(VeryDogePresenter)
+    assert_instance_of VeryDogePresenter, presenters[0]
   end
 
   it "creates the default presenter for nil object" do
-    presenter = controller.present(nil)
-    assert presenter.is_a?(Pres::Presenter)
+    assert_instance_of Pres::Presenter, controller.present(nil)
+  end
 
   it "creates an instance of object's presenter_class" do
     assert_instance_of VeryDogePresenter, controller.present(SuchDoge.new)
