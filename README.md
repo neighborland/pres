@@ -254,12 +254,11 @@ by default, instead of whitelisting methods on the wrapped model explicitly.
 Delegating everything to the model by default is how the `draper` gem works, for example.
 
 ```ruby
-class DogePresenter < SimpleDelegator
+class DogePresenter < DelegateClass(Doge)
   include Pres::ViewDelegation
 
-  # you need to write your own initializer with SimpleDelegator
   def initialize(object, view_context, options = {})
-    super
+    super(object)
     @view_context = view_context
   end
 ```
@@ -268,7 +267,7 @@ class DogePresenter < SimpleDelegator
 = doge.name
 ```
 
-see [SimpleDelegator](http://ruby-doc.org/stdlib-2.3.0/libdoc/delegate/rdoc/SimpleDelegator.html)
+see [DelegateClass](https://ruby-doc.org/stdlib-2.4.0/libdoc/delegate/rdoc/Object.html)
 
 ## Updating to version 1.0
 
