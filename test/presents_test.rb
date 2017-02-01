@@ -10,6 +10,12 @@ describe Pres::Presents do
   class VeryDogePresenter < Pres::Presenter
   end
 
+  class SuchDoge
+    def presenter_class
+      VeryDogePresenter
+    end
+  end
+
   class FakeController
     include Pres::Presents
 
@@ -69,5 +75,14 @@ describe Pres::Presents do
   it "creates the default presenter for nil object" do
     presenter = controller.present(nil)
     assert presenter.is_a?(Pres::Presenter)
+
+  it "creates an instance of object's presenter_class" do
+    assert_instance_of VeryDogePresenter, controller.present(SuchDoge.new)
+  end
+
+  it "yields an instance of object's presenter_class" do
+    controller.present(SuchDoge.new) do |doge|
+      assert_instance_of VeryDogePresenter, doge
+    end
   end
 end

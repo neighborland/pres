@@ -4,8 +4,17 @@ module Pres
 
     # Wrap an object or collection of objects with a presenter class.
     #
-    # object    - a ruby class, or nil
-    # presenter - a Presenter class (optional)
+    # object    - A ruby object. May be nil.
+    # presenter - A Presenter class (optional)
+    # args      - optional hash / kwargs passed to the presenter
+    #
+    # An instance of a presenter class is created. The class is
+    # one of the following:
+    # - the `presenter` argument
+    # - `Pres::Presenter` if object is nil
+    # - object.presenter_class (if that method is defined)
+    # - the default presenter class for the object
+    #   (for example: User -> UserPresenter)
     #
     # Examples
     #
@@ -23,6 +32,15 @@ module Pres
     # present(user, presenter: NiceUserPresenter, cool: true)
     # => #<NiceUserPresenter object: #<User> ...>
     #
+    # class User
+    #   def presenter_class
+    #     MyPresenter
+    #   end
+    # end
+    # user = User.new
+    # present(user)
+    # => #<MyPresenter object: #<User> ...>
+    #
     # present([user])
     # => [#<UserPresenter object: #<User> ...>]
     #
@@ -36,6 +54,7 @@ module Pres
         object.map { |item| present(item, presenter: presenter, **args) }
       else
         presenter ||= Presenter if object.nil?
+        presenter ||= object.respond_to?(:presenter_class) && object.presenter_class
         presenter ||= Object.const_get("#{object.class.name}Presenter")
         wrapper = presenter.new(object, view_context, **args)
         block_given? ? yield(wrapper) : wrapper

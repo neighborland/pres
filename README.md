@@ -89,7 +89,7 @@ Use the presenter object in `doges/show.haml.html`
 ```haml
 = doge.name_header
 .status
-  You are #{ doge.signed_in_status }
+  You are #{doge.signed_in_status}
 .links
   .meme-link= doge.know_your_meme_link
 ```
@@ -165,6 +165,19 @@ present(user, presenter: UserEditPresenter, cool: true)
 => #<UserEditPresenter object: #<User> ...>
 ```
 
+You may also define a custom presenter class on any class you want to present:
+
+```ruby
+class User
+  def presenter_class
+    MyPresenter
+  end
+end
+
+present(User.new)
+# => #<MyPresenter object: #<User> ...>
+```
+
 #### Creating presenters in views
 
 If you would like to create a presenter in your view code, make the `present` method 
@@ -215,7 +228,7 @@ end
 
 #### Presenters can create other presenters
 
-If you are awesome, you could have one top-level presenter exposed per controller,
+Ideally, you can have one top-level presenter exposed per controller,
 which can then wrap child objects in presenters of their own.
 
 ```ruby
@@ -234,7 +247,7 @@ end
 
 If you don't want to inherit from `Pres::Presenter`, you can include
 `Pres::ViewDelegation` and implement your own initializer (so the `present` helper
-will work). 
+will work).
 
 This technique is useful if you would like to delegate all methods in a model
 by default, instead of whitelisting methods on the wrapped model explicitly.
