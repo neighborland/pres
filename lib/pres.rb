@@ -1,5 +1,3 @@
-require "active_support/core_ext/module/delegation"
-require "active_support/concern"
 require "pres/version"
 require "pres/view_delegation"
 require "pres/presents"
