@@ -1,9 +1,7 @@
 module Pres
   module ViewDelegation
-    extend ActiveSupport::Concern
-
-    included do
-      attr_reader :view_context
+    def view_context
+      @view_context
     end
 
     # Send missing symbols to view_context first
