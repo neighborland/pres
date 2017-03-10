@@ -6,8 +6,7 @@ describe Pres::Presenter do
     presenter = Pres::Presenter.new(nil, view_context)
     assert presenter.respond_to?(:current_user)
     assert presenter.respond_to?(:link_to)
-    view_context.expects(:link_to)
-    presenter.link_to "something"
+    assert_equal "yay", presenter.link_to("something")
   end
 
   it "is constructed without options" do
