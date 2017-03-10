@@ -4,7 +4,6 @@ if ENV["TRAVIS"]
 end
 
 require "minitest/autorun"
-require "mocha/mini_test"
 require "byebug" if ENV["BYEBUG"]
 require "pres"
 
@@ -18,6 +17,6 @@ class FakeViewContext
 
   # An example of a private method provided by the view_context
   def link_to(*_)
-    nil
+    "yay"
   end
 end
