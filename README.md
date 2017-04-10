@@ -137,19 +137,16 @@ Or use each:
 
 #### Present with options
 
-Pass additional options to a Presenter as a hash:
+Pass additional options to a Presenter as a hash. The presenter class exposes the
+`options` hash as a method:
 
 ```ruby
-class UserPresenter < Pres::Presenter
-  def initialize(object, view_context, cool: false)
-    super
-    @cool = cool
-  end  
-end
-
 user = User.new
-present(user, cool: true)
+# presenter = UserPresenter.new(user, view_context, something: 123)
+presenter = present(user, something: 123)
 => #<UserPresenter object: #<User> ...>
+presenter.options[:something]
+=> 123
 ```
 
 #### Render a custom Presenter
