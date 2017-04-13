@@ -68,30 +68,24 @@ class DogePresenter < Pres::Presenter
 end
 ```
 
-Wrap your model object in your controller with `present`:
+Wrap your model object in a presenter in your controller with `present`:
 
 ```ruby
 class DogesController
   def show
+    @doge = present(Doge.find(params[:id]))
   end
-
-  private
-
-  helper_method \
-  def doge
-    @doge ||= present(Doge.find(params[:id]))
-  end  
 end
 ```
 
 Use the presenter object in `doges/show.haml.html`
 
 ```haml
-= doge.name_header
+= @doge.name_header
 .status
-  You are #{doge.signed_in_status}
+  You are #{@doge.signed_in_status}
 .links
-  .meme-link= doge.know_your_meme_link
+  .meme-link= @doge.know_your_meme_link
 ```
 
 #### Collections
@@ -104,25 +98,19 @@ class DogePresenter < Pres::Presenter
 end
 ```
 
-Wrap your model objects in your controller with `present`:
+Build an array of presenters in your controller with `present`:
 
 ```ruby
 class DogesController
   def index
+    @doges = present(Doge.all)
   end
-
-  private
-
-  helper_method \
-  def doges
-    @doges ||= present(Doge.all)
-  end  
 end
 ```
 
 Use the presenter objects in `doges/index.haml.html`
 
-This renders "doges/_doge.html.haml" for each item, as usual:
+This renders "doges/_doge.html.haml" for each item, following rails' usual conventions:
 
 ```haml
 = render @doges
@@ -131,7 +119,7 @@ This renders "doges/_doge.html.haml" for each item, as usual:
 Or use each:
 
 ```haml
-- doges.each do |doge|
+- @doges.each do |doge|
   = doge.name_header
 ```
 
@@ -142,14 +130,17 @@ Pass additional options to a Presenter as a hash. The presenter class exposes th
 
 ```ruby
 user = User.new
+
+# These two lines are the same:
 # presenter = UserPresenter.new(user, view_context, something: 123)
 presenter = present(user, something: 123)
 => #<UserPresenter object: #<User> ...>
+
 presenter.options[:something]
 => 123
 ```
 
-#### Render a custom Presenter
+#### Use a custom presenter class
 
 By default, a presenter class corresponding to the model class name is
 constructed in `present`. For example, if you present a `User`, a `UserPresenter`
@@ -175,10 +166,10 @@ present(User.new)
 # => #<MyPresenter object: #<User> ...>
 ```
 
-#### Creating presenters in views
+#### Create presenters in views
 
-If you would like to create a presenter in your view code, make the `present` method 
-visible to your views.
+You can create a presenter in your view code. First make the `present` method 
+visible to your views by declaring it a `helper_method`:
 
 ```ruby
 class ApplicationController
@@ -187,7 +178,7 @@ class ApplicationController
 end
 ```
 
-This makes it easy to create presenters inline in a view:
+Then you can create presenters inline in a view:
 
 ```haml
 - present(@doge) do |doge|
@@ -225,8 +216,7 @@ end
 
 #### Presenters can create other presenters
 
-Ideally, you can have one top-level presenter exposed per controller,
-which can then wrap child objects in presenters of their own.
+Presenters can wrap child objects in presenters of their own.
 
 ```ruby
 class DogePresenter < Pres::Presenter
