@@ -53,11 +53,19 @@ module Pres
       if object.respond_to?(:to_ary)
         object.map { |item| present(item, presenter: presenter, **args) }
       else
-        presenter ||= Presenter if object.nil?
-        presenter ||= object.respond_to?(:presenter_class) && object.presenter_class
-        presenter ||= Object.const_get("#{object.class.name}Presenter")
+        presenter ||= presenter_klass(object)
         wrapper = presenter.new(object, view_context, **args)
         block_given? ? yield(wrapper) : wrapper
+      end
+    end
+
+    def presenter_klass(object)
+      if object.nil?
+        Presenter
+      elsif object.respond_to?(:presenter_class)
+        object.presenter_class
+      else
+        Object.const_get("#{object.class.name}Presenter")
       end
     end
   end
