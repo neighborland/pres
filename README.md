@@ -5,19 +5,28 @@
 
 ## What?
 
-A Presenter is a rendering class. Presenters are an alternative to an unorganized mass of helper 
-methods in your Rails application. The `pres` gem is a lightweight presenter solution.
+A Presenter is a rendering class. The `pres` gem is a lightweight presenter
+solution with no runtime gem dependencies.
+
+`Pres` provides the following:
+
+1. `Pres::Presenter` is a presenter base class.
+1. `present` is a convenience method to create presenters.
+1. `Pres::ViewDelegation` is a delegation module, included in the `Presenter` base class.
 
 ## How and Why?
+
+Presenters are an alternative to an unorganized mass of helper
+methods in your ruby application.
 
 Rails' `ViewContext` contains convenience methods for views, such as `link_to`,
 `url_for`, `truncate`, `number_to_currency`, etc. It's the thing that makes
 Rails views nice to work with.
 
 Other presenter libraries mix in all the methods from the Rails `ViewContext` to
-make it easy to call those methods in the Presenter class. `pres` instead injects 
-the `ViewContext` as a dependency into the Presenter class, and uses `method_missing` 
-to delegate to `ViewContext` methods. `pres` produces small classes that contain and 
+make it easy to call those methods in the Presenter class. `pres` instead injects
+the `ViewContext` as a dependency into the Presenter class, and uses `method_missing`
+to delegate to `ViewContext` methods. `pres` produces small classes that contain and
 delegate to an existing object that handles server-side rendering.
 
 ## Install
@@ -27,6 +36,8 @@ Add it to your Gemfile:
 ```ruby
 gem "pres"
 ```
+
+## Setup with Rails
 
 Include the `Pres::Presents` module:
 
@@ -53,7 +64,7 @@ class DogePresenter < Pres::Presenter
   end
 
   def name_header
-    # object is the Doge
+    # object is the Doge used to initialize the presenter
     content_tag(:h1, object.name)  
   end
 
@@ -132,7 +143,9 @@ Pass additional options to a Presenter as a hash. The presenter class exposes th
 user = User.new
 
 # These two lines are the same:
-# presenter = UserPresenter.new(user, view_context, something: 123)
+# 1. explicit
+presenter = UserPresenter.new(user, view_context, something: 123)
+# 2. using #present
 presenter = present(user, something: 123)
 => #<UserPresenter object: #<User> ...>
 
@@ -144,7 +157,7 @@ presenter.options[:something]
 
 By default, a presenter class corresponding to the model class name is
 constructed in `present`. For example, if you present a `User`, a `UserPresenter`
-class is constructed. An error is raised if the presenter class does not exist. 
+class is constructed. An error is raised if the presenter class does not exist.
 To specify a different class, use the `presenter:` key.
 
 ```ruby
@@ -168,7 +181,7 @@ present(User.new)
 
 #### Create presenters in views
 
-You can create a presenter in your view code. First make the `present` method 
+You can create a presenter in your view code. First make the `present` method
 visible to your views by declaring it a `helper_method`:
 
 ```ruby
@@ -185,22 +198,6 @@ Then you can create presenters inline in a view:
   = doge.name_header
 ```
 
-### Presenters are objects
-
-You can mix in common methods.
-
-```ruby
-module Shared
-  def truncated_name(length: 40)
-    truncate object.name, length: length
-  end
-end
-
-class DogePresenter < Pres::Presenter
-  include Shared
-end
-```
-
 You can override methods as usual:
 
 ```ruby
@@ -208,7 +205,7 @@ class DogePresenter < Pres::Presenter
   include Shared
 
   def truncated_name(length: 60)
-    # whoa this one is different!
+    # override
     super(length: length)
   end
 end
