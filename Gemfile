@@ -1,11 +1,7 @@
 source "https://rubygems.org"
 
-if ENV["TRAVIS"]
-  gem "coveralls", require: false
-end
+gem "coveralls", require: false if ENV["TRAVIS"]
 
-if ENV["BYEBUG"]
-  gem "byebug"
-end
+gem "byebug" if ENV["BYEBUG"]
 
 gemspec
