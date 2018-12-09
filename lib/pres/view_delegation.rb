@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Pres
   module ViewDelegation
     def view_context

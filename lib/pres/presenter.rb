@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Base Presenter class
 # Construct with object, view_context, and optional options
 module Pres
