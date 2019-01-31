@@ -29,4 +29,26 @@ describe Pres::Presenter do
     presenter = Pres::Presenter.new(nil)
     assert presenter.respond_to?(:present, true)
   end
+
+  it "#inspect with object" do
+    object = Object.new
+    presenter = Pres::Presenter.new(object)
+    assert_equal "#{object.inspect}\noptions: {}\nview_context: NilClass",
+      presenter.inspect
+  end
+
+  it "#inspect with options" do
+    object = Object.new
+    presenter = Pres::Presenter.new(object, nil, name: "x")
+    assert_equal %(#{object.inspect}\noptions: {:name=>"x"}\nview_context: NilClass),
+      presenter.inspect
+  end
+
+  it "#inspect with view_context" do
+    object = Object.new
+    view_context = { abc: 123 }
+    presenter = Pres::Presenter.new(object, view_context)
+    assert_equal "#{object.inspect}\noptions: {}\nview_context: Hash",
+      presenter.inspect
+  end
 end
