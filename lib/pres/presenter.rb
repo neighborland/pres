@@ -22,5 +22,13 @@ module Pres
     def to_partial_path
       object.to_partial_path
     end
+
+    def inspect
+      [
+        object.inspect,
+        "options: #{options.inspect}",
+        "view_context: #{view_context.class.name}"
+      ].join("\n")
+    end
   end
 end
