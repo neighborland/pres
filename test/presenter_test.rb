@@ -8,7 +8,7 @@ describe Pres::Presenter do
     presenter = Pres::Presenter.new(nil, view_context)
     assert presenter.respond_to?(:current_user)
     assert presenter.respond_to?(:link_to)
-    assert_equal "yay", presenter.link_to("something")
+    assert_equal "<a href='x'>X</a>", presenter.link_to("something")
   end
 
   it "is constructed without options" do
