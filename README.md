@@ -16,8 +16,7 @@ solution with no runtime gem dependencies.
 
 ## How and Why?
 
-Presenters are an alternative to an unorganized mass of helper
-methods in your ruby application.
+Presenters are an alternative to an unorganized pile of helper methods in your rails application.
 
 Rails' `ViewContext` contains convenience methods for views, such as `link_to`,
 `url_for`, `truncate`, `number_to_currency`, etc. It's the thing that makes
@@ -42,12 +41,25 @@ gem "pres"
 Include the `Pres::Presents` module:
 
 ```ruby
-class ApplicationController
+class ApplicationHelper
   include Pres::Presents
 end
 ```
 
-### Usage
+This will make the `present` method available in your views.
+
+## Use
+
+There are two main approaches: 
+
+(1) Follow the traditional rails way with view templates, but move your helper methods into a presenter class. 
+You'll probably want to start here if you have an existing rails app.
+
+(2) Create self-contained rendering components (see "Components" below).
+
+You can use both techniques.
+
+### (1) With View Templates
 
 The quickest way to get started is to use the `Pres::Presenter` base class.
 
@@ -79,37 +91,32 @@ class DogePresenter < Pres::Presenter
 end
 ```
 
-Wrap your model object in a presenter in your controller with `present`:
+Standard rails controller method:
 
 ```ruby
 class DogesController
   def show
-    @doge = present(Doge.find(params[:id]))
+    @doge = Doge.find(params[:id])
   end
 end
 ```
 
-Use the presenter object in `doges/show.haml.html`
+Wrap your model object in a presenter in your view with `present`:
+
+`doges/show.haml.html`
 
 ```haml
-= @doge.name_header
-.status
-  You are #{@doge.signed_in_status}
-.links
-  .meme-link= @doge.know_your_meme_link
+- present(@doge) do |doge|
+  = doge.name_header
+  .status
+    You are #{doge.signed_in_status}
+  .links
+    .meme-link= doge.know_your_meme_link
 ```
 
 #### Collections
 
-Create a presenter class in `app/presenters`:
-
-```ruby
-class DogePresenter < Pres::Presenter
-  # same as above
-end
-```
-
-Build an array of presenters in your controller with `present`:
+Standard rails controller method:
 
 ```ruby
 class DogesController
@@ -119,20 +126,47 @@ class DogesController
 end
 ```
 
-Use the presenter objects in `doges/index.haml.html`
+Build an array of presenters in your view with `present`:
+
+`doges/index.haml.html`
 
 This renders "doges/_doge.html.haml" for each item, following rails' usual conventions:
 
 ```haml
-= render @doges
+= render present(@doges)
 ```
 
 Or use each:
 
 ```haml
-- @doges.each do |doge|
+- present(@doges).each do |doge|
   = doge.name_header
 ```
+
+## (2) Components
+
+You can also use `pres` to build components that directly render HTML:
+
+```ruby
+class PlusTwoPresenter < Pres::Presenter
+  def render
+    return unless object
+    <<~HTML.html_safe
+      <div>#{object + 2}</div>
+    HTML
+  end
+end
+
+PlusTwoPresenter.new(2).render 
+=> "<div>4</div>"
+
+present(2, presenter: PlusTwoPresenter).render
+=> "<div>4</div>"
+```
+
+If `render` is confusing, name that method `#to_html` or something else.
+
+## Options
 
 #### Present with options
 
@@ -145,6 +179,7 @@ user = User.new
 # These two lines are the same:
 # 1. explicit
 presenter = UserPresenter.new(user, view_context, something: 123)
+
 # 2. using #present
 presenter = present(user, something: 123)
 => #<UserPresenter object: #<User> ...>
@@ -177,38 +212,6 @@ end
 
 present(User.new)
 # => #<MyPresenter object: #<User> ...>
-```
-
-#### Create presenters in views
-
-You can create a presenter in your view code. First make the `present` method
-visible to your views by declaring it a `helper_method`:
-
-```ruby
-class ApplicationController
-  include Pres::Presents
-  helper_method :present
-end
-```
-
-Then you can create presenters inline in a view:
-
-```haml
-- present(@doge) do |doge|
-  = doge.name_header
-```
-
-You can override methods as usual:
-
-```ruby
-class DogePresenter < Pres::Presenter
-  include Shared
-
-  def truncated_name(length: 60)
-    # override
-    super(length: length)
-  end
-end
 ```
 
 #### Presenters can create other presenters
