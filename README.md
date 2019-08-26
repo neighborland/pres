@@ -145,23 +145,51 @@ Or use each:
 
 ## (2) Components
 
-You can also use `pres` to build components that directly render HTML:
+You can use `pres` to build components that directly render HTML:
+
+_Note: `#sanitize` is a method on the `view_context`._
 
 ```ruby
-class PlusTwoPresenter < Pres::Presenter
+class NameHeader < Pres::Presenter
   def render
-    return unless object
+    return unless object&.name
     <<~HTML.html_safe
-      <div>#{object + 2}</div>
+      <h1>#{sanitize(object.name.titleize)}</h1>
     HTML
   end
 end
 
-PlusTwoPresenter.new(2).render 
-=> "<div>4</div>"
+user = User.new(name: "joe cool <")
 
-present(2, presenter: PlusTwoPresenter).render
-=> "<div>4</div>"
+NameHeader.new(user, view_context).render 
+=> "<h1>Joe Cool &lt;</h1>"
+
+present(user, presenter: NameHeader).render
+=> "<h1>Joe Cool &lt;</h1>"
+```
+
+You may notice that you could do without `pres` altogether when you don't need 
+the `view_context` helper methods:
+
+```ruby
+class PlusTwo
+  def initialize(object)
+    @object = object
+  end
+
+  def render
+    return unless @object
+    <<~HTML.html_safe
+      <p>#{@object + 2}</p>
+    HTML
+  end
+end
+
+PlusTwo.new(2).render 
+=> "<p>4</p>"
+
+present(2, presenter: PlusTwo).render
+=> "<p>4</p>"
 ```
 
 If `render` is confusing, name that method `#to_html` or something else.
