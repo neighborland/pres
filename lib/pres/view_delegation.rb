@@ -7,9 +7,9 @@ module Pres
     end
 
     # Send missing methods to view_context first
-    def method_missing(method, *args, &block)
+    def method_missing(method, ...)
       if view_context.respond_to?(method, true)
-        view_context.send(method, *args, &block)
+        view_context.send(method, ...)
       else
         super
       end

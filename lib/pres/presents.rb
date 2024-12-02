@@ -51,12 +51,12 @@ module Pres
     #
     # Returns a new Presenter object or array of new Presenter objects
     # Yields a new Presenter object if a block is given
-    def present(object, presenter: nil, **args)
+    def present(object, presenter: nil, **kwargs)
       if object.respond_to?(:to_ary)
-        object.map { |item| present(item, presenter: presenter, **args) }
+        object.map { |item| present(item, presenter:, **kwargs) }
       else
         presenter ||= presenter_klass(object)
-        wrapper = presenter.new(object, view_context, **args)
+        wrapper = presenter.new(object, view_context, **kwargs)
         block_given? ? yield(wrapper) : wrapper
       end
     end
