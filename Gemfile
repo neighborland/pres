@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
-gem "coveralls", require: false if ENV["TRAVIS"]
-
-gem "byebug" if ENV["BYEBUG"]
+gem "minitest", "~> 5.25"
+gem "rake", "~> 13.0"
+gem "debug" if ENV["DEBUG"]
 
 gemspec
