@@ -1,12 +1,7 @@
 # frozen_string_literal: true
 
-if ENV["TRAVIS"]
-  require "coveralls"
-  Coveralls.wear!
-end
-
 require "minitest/autorun"
-require "byebug" if ENV["BYEBUG"]
+require "debug" if ENV["DEBUG"]
 require "pres"
 
 class FakeViewContext
