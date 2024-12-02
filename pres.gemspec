@@ -9,6 +9,7 @@ Gem::Specification.new do |spec|
   spec.description   = "A Simple Rails Presenter base class and controller helper"
   spec.homepage      = "https://github.com/neighborland/pres"
   spec.license       = "MIT"
+  spec.metadata["rubygems_mfa_required"] = "true"
 
   spec.files         = Dir["LICENSE.txt", "README.md", "lib/**/*"]
   spec.require_paths = ["lib"]
