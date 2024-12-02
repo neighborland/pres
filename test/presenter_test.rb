@@ -40,8 +40,12 @@ describe Pres::Presenter do
   it "#inspect with options" do
     object = Object.new
     presenter = Pres::Presenter.new(object, nil, name: "x")
-    assert_equal %(#{object.inspect}\noptions: {:name=>"x"}\nview_context: NilClass),
-      presenter.inspect
+    expect_inspect = if RUBY_VERSION >= "3.4"
+      %(#{object.inspect}\noptions: {name: "x"}\nview_context: NilClass)
+    else
+      %(#{object.inspect}\noptions: {:name=>"x"}\nview_context: NilClass)
+    end
+    assert_equal expect_inspect, presenter.inspect
   end
 
   it "#inspect with view_context" do
