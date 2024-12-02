@@ -1,9 +1,10 @@
 inherit_from: .rubocop_todo.yml
 
 AllCops:
-  TargetRubyVersion: 2.4
+  TargetRubyVersion: 3.2
+  NewCops: enable
 
-Layout/AlignParameters:
+Layout/ParameterAlignment:
   Enabled: false
 
 Layout/EmptyLineAfterGuardClause:
@@ -33,7 +34,7 @@ Metrics/ModuleLength:
 Metrics/PerceivedComplexity:
   Enabled: false
 
-Naming/UncommunicativeMethodParamName:
+Naming/MethodParameterName:
   Enabled: false
 
 Style/CaseEquality:
@@ -53,6 +54,6 @@ Style/ZeroLengthPredicate:
 
 Style/FrozenStringLiteralComment:
   Exclude:
-    - 'Gemfile'
-    - 'Rakefile'
-    - '*.gemspec'
+    - "Gemfile"
+    - "Rakefile"
+    - "*.gemspec"

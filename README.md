@@ -1,7 +1,7 @@
 # `pres`
 
 [![Gem Version](https://badge.fury.io/rb/pres.svg)](http://badge.fury.io/rb/pres)
-[![Build Status](https://travis-ci.org/neighborland/pres.svg)](https://travis-ci.org/neighborland/pres)
+[![Build Status](https://github.com/neighborland/pres/actions/workflows/ruby.yml/badge.svg)](https://github.com/neighborland/pres/actions/workflows/ruby.yml)
 
 ## What?
 
@@ -50,9 +50,9 @@ This will make the `present` method available in your views.
 
 ## Use
 
-There are two main approaches: 
+There are two main approaches:
 
-(1) Follow the traditional rails way with view templates, but move your helper methods into a presenter class. 
+(1) Follow the traditional rails way with view templates, but move your helper methods into a presenter class.
 You'll probably want to start here if you have an existing rails app.
 
 (2) Create self-contained rendering components (see "Components" below).
@@ -77,7 +77,7 @@ class DogePresenter < Pres::Presenter
 
   def name_header
     # object is the Doge used to initialize the presenter
-    content_tag(:h1, object.name)  
+    content_tag(:h1, object.name)
   end
 
   def signed_in_status
@@ -87,7 +87,7 @@ class DogePresenter < Pres::Presenter
     else
       "Signed out"
     end
-  end  
+  end
 end
 ```
 
@@ -161,14 +161,14 @@ end
 
 user = User.new(name: "joe cool <")
 
-NameHeader.new(user, view_context).render 
+NameHeader.new(user, view_context).render
 => "<h1>Joe Cool &lt;</h1>"
 
 present(user, presenter: NameHeader).render
 => "<h1>Joe Cool &lt;</h1>"
 ```
 
-You may notice that you could do without `pres` altogether when you don't need 
+You may notice that you could do without `pres` altogether when you don't need
 the `view_context` helper methods:
 
 ```ruby
@@ -185,7 +185,7 @@ class PlusTwo
   end
 end
 
-PlusTwo.new(2).render 
+PlusTwo.new(2).render
 => "<p>4</p>"
 
 present(2, presenter: PlusTwo).render
@@ -250,7 +250,7 @@ Presenters can wrap child objects in presenters of their own.
 class DogePresenter < Pres::Presenter
   def cats
     present(object.cats)
-  end  
+  end
 end
 ```
 

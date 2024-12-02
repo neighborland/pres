@@ -23,7 +23,7 @@ describe Pres::Presents do
 
     # Expose the private method
     # Basically what `helper_method :present` does
-    def present(*args, &block)
+    def present(*args, **kwargs, &)
       super
     end
 
