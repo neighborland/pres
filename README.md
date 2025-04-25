@@ -66,17 +66,17 @@ The quickest way to get started is to use the `Pres::Presenter` base class.
 Create a presenter class in `app/presenters`:
 
 ```ruby
-class DogePresenter < Pres::Presenter
+class DoggPresenter < Pres::Presenter
   # explicitly delegate methods to the model
   delegate :name, to: :object
 
-  def know_your_meme_link
+  def info_link
     # Rails helpers are available via the view context
-    link_to "Know your meme", "http://knowyourmeme.com/memes/doge"
+    link_to "Snoop Dogg", "https://en.wikipedia.org/wiki/Snoop_Dogg"
   end
 
   def name_header
-    # object is the Doge used to initialize the presenter
+    # object is the Dogg used to initialize the presenter
     content_tag(:h1, object.name)
   end
 
@@ -94,24 +94,24 @@ end
 Standard rails controller method:
 
 ```ruby
-class DogesController
+class DoggsController
   def show
-    @doge = Doge.find(params[:id])
+    @dogg = Dogg.find(params[:id])
   end
 end
 ```
 
 Wrap your model object in a presenter in your view with `present`:
 
-`doges/show.haml.html`
+`doggs/show.haml.html`
 
 ```haml
-- present(@doge) do |doge|
-  = doge.name_header
+- present(@dogg) do |dogg|
+  = dogg.name_header
   .status
-    You are #{doge.signed_in_status}
+    You are #{dogg.signed_in_status}
   .links
-    .meme-link= doge.know_your_meme_link
+    .meme-link= dogg.info_link
 ```
 
 #### Collections
@@ -119,28 +119,28 @@ Wrap your model object in a presenter in your view with `present`:
 Standard rails controller method:
 
 ```ruby
-class DogesController
+class DoggsController
   def index
-    @doges = present(Doge.all)
+    @doggs = present(Dogg.all)
   end
 end
 ```
 
 Build an array of presenters in your view with `present`:
 
-`doges/index.haml.html`
+`doggs/index.haml.html`
 
-This renders "doges/_doge.html.haml" for each item, following rails' usual conventions:
+This renders "doggs/\_dogg.html.haml" for each item, following rails' usual conventions:
 
 ```haml
-= render present(@doges)
+= render present(@doggs)
 ```
 
 Or use each:
 
 ```haml
-- present(@doges).each do |doge|
-  = doge.name_header
+- present(@doggs).each do |dogg|
+  = dogg.name_header
 ```
 
 ## (2) Components
@@ -247,7 +247,7 @@ present(User.new)
 Presenters can wrap child objects in presenters of their own.
 
 ```ruby
-class DogePresenter < Pres::Presenter
+class DoggPresenter < Pres::Presenter
   def cats
     present(object.cats)
   end
@@ -255,7 +255,7 @@ end
 ```
 
 ```haml
-= render doge.cats
+= render dogg.cats
 ```
 
 ### Using mixins instead of inheritance
@@ -269,7 +269,7 @@ by default, instead of whitelisting methods on the wrapped model explicitly.
 Delegating everything to the model by default is how the `draper` gem works, for example.
 
 ```ruby
-class DogePresenter < DelegateClass(Doge)
+class DoggPresenter < DelegateClass(Dogg)
   include Pres::ViewDelegation
 
   def initialize(object, view_context, options = {})
@@ -279,7 +279,7 @@ class DogePresenter < DelegateClass(Doge)
 ```
 
 ```haml
-= doge.name
+= dogg.name
 ```
 
 see [DelegateClass](https://ruby-doc.org/stdlib-2.4.0/libdoc/delegate/rdoc/Object.html)
@@ -291,7 +291,7 @@ Change your code references to `Pres::Presents` and `Pres::Presenter`.
 
 ## References
 
-* http://nithinbekal.com/posts/rails-presenters/
-* https://github.com/drapergem/draper
-* http://thepugautomatic.com/2014/03/draper/
-* https://robots.thoughtbot.com/sandi-metz-rules-for-developers
+- http://nithinbekal.com/posts/rails-presenters/
+- https://github.com/drapergem/draper
+- http://thepugautomatic.com/2014/03/draper/
+- https://robots.thoughtbot.com/sandi-metz-rules-for-developers

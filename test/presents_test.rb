@@ -2,74 +2,74 @@
 
 require "test_helper"
 
+class Dogg
+end
+
+class DoggPresenter < Pres::Presenter
+end
+
+class SnoopDoggPresenter < Pres::Presenter
+end
+
+class NateDogg
+  def presenter_class
+    SnoopDoggPresenter
+  end
+end
+
+class FakeController
+  include Pres::Presents
+
+  # Expose the private method
+  # Basically what `helper_method :present` does
+  def present(*args, **kwargs, &)
+    super
+  end
+
+  def very_wrap(object)
+    present(object, presenter: SnoopDoggPresenter)
+  end
+
+  def view_context
+    FakeViewContext.new
+  end
+end
+
 describe Pres::Presents do
-  class Doge
-  end
-
-  class DogePresenter < Pres::Presenter
-  end
-
-  class VeryDogePresenter < Pres::Presenter
-  end
-
-  class SuchDoge
-    def presenter_class
-      VeryDogePresenter
-    end
-  end
-
-  class FakeController
-    include Pres::Presents
-
-    # Expose the private method
-    # Basically what `helper_method :present` does
-    def present(*args, **kwargs, &)
-      super
-    end
-
-    def very_wrap(object)
-      present(object, presenter: VeryDogePresenter)
-    end
-
-    def view_context
-      FakeViewContext.new
-    end
-  end
-
   let(:controller) { FakeController.new }
 
   it "creates the default presenter" do
-    assert_instance_of DogePresenter, controller.present(Doge.new)
+    assert_instance_of DoggPresenter, controller.present(Dogg.new)
   end
 
   it "yields the default presenter" do
-    controller.present(Doge.new) do |doge|
-      assert_instance_of DogePresenter, doge
+    controller.present(Dogg.new) do |dogg|
+      assert_instance_of DoggPresenter, dogg
     end
   end
 
   it "creates the specified presenter" do
-    assert_instance_of VeryDogePresenter, controller.very_wrap(Doge.new)
+    assert_instance_of SnoopDoggPresenter, controller.very_wrap(Dogg.new)
   end
 
   it "yields the specified presenter" do
-    controller.very_wrap(Doge.new) do |doge|
-      assert_instance_of VeryDogePresenter, doge
+    controller.very_wrap(Dogg.new) do |dogg|
+      assert_instance_of SnoopDoggPresenter, dogg
     end
   end
 
   it "creates an array of default presenters" do
-    presenters = controller.present([Doge.new, Doge.new])
+    presenters = controller.present([Dogg.new, Dogg.new])
     assert_instance_of Array, presenters
     assert_equal 2, presenters.size
-    assert_instance_of DogePresenter, presenters[0]
+    assert_instance_of DoggPresenter, presenters[0]
   end
 
   it "creates an array of specified presenters" do
-    presenters = controller.very_wrap([Doge.new, Doge.new])
+    presenters = controller.very_wrap([Dogg.new, Dogg.new])
     assert_instance_of Array, presenters
     assert_equal 2, presenters.size
-    assert_instance_of VeryDogePresenter, presenters[0]
+    assert_instance_of SnoopDoggPresenter, presenters[0]
   end
 
   it "creates the default presenter for nil object" do
@@ -77,12 +77,12 @@ describe Pres::Presents do
   end
 
   it "creates an instance of object's presenter_class" do
-    assert_instance_of VeryDogePresenter, controller.present(SuchDoge.new)
+    assert_instance_of SnoopDoggPresenter, controller.present(NateDogg.new)
   end
 
   it "yields an instance of object's presenter_class" do
-    controller.present(SuchDoge.new) do |doge|
-      assert_instance_of VeryDogePresenter, doge
+    controller.present(NateDogg.new) do |dogg|
+      assert_instance_of SnoopDoggPresenter, dogg
     end
   end
 end
