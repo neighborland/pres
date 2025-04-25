@@ -26,8 +26,8 @@ class FakeController
     super
   end
 
-  def very_wrap(object)
-    present(object, presenter: SnoopDoggPresenter)
+  def very_wrap(object, &)
+    present(object, presenter: SnoopDoggPresenter, &)
   end
 
   def view_context
