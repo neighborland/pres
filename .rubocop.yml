@@ -10,6 +10,9 @@ Layout/ParameterAlignment:
 Layout/EmptyLineAfterGuardClause:
   Enabled: false
 
+Layout/LineLength:
+  Max: 100
+
 Layout/MultilineOperationIndentation:
   Enabled: false
 
@@ -21,9 +24,6 @@ Metrics/ClassLength:
 
 Metrics/CyclomaticComplexity:
   Enabled: false
-
-Metrics/LineLength:
-  Max: 100
 
 Metrics/MethodLength:
   Enabled: false
