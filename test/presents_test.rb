@@ -3,6 +3,7 @@
 require "test_helper"
 
 class Dogg
+  attr_accessor :name
 end
 
 class DoggPresenter < Pres::Presenter

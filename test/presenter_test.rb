@@ -34,17 +34,17 @@ describe Pres::Presenter do
     object = Object.new
     presenter = Pres::Presenter.new(object)
     assert_equal "#{object.inspect}\noptions: {}\nview_context: NilClass",
-      presenter.inspect
+                 presenter.inspect
   end
 
   it "#inspect with options" do
     object = Object.new
     presenter = Pres::Presenter.new(object, nil, name: "x")
     expect_inspect = if RUBY_VERSION >= "3.4"
-      %(#{object.inspect}\noptions: {name: "x"}\nview_context: NilClass)
-    else
-      %(#{object.inspect}\noptions: {:name=>"x"}\nview_context: NilClass)
-    end
+                       %(#{object.inspect}\noptions: {name: "x"}\nview_context: NilClass)
+                     else
+                       %(#{object.inspect}\noptions: {:name=>"x"}\nview_context: NilClass)
+                     end
     assert_equal expect_inspect, presenter.inspect
   end
 
@@ -53,6 +53,6 @@ describe Pres::Presenter do
     view_context = { abc: 123 }
     presenter = Pres::Presenter.new(object, view_context)
     assert_equal "#{object.inspect}\noptions: {}\nview_context: Hash",
-      presenter.inspect
+                 presenter.inspect
   end
 end
